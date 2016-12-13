@@ -1,6 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 createNobody () {
+	echo "Creating nobody user"
 	smbpasswd -an nobody
 }
 
