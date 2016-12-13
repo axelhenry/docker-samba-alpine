@@ -1,5 +1,9 @@
 #!/usr/bin/with-contenv sh
 
+createNobody () {
+	smbpasswd -an nobody
+}
+
 #parameters username userid groupname groupid password
 createUser () {
         userExists=$(cat /etc/passwd | grep "$1:")
@@ -25,6 +29,7 @@ createUser () {
         fi
 }
 
+createNobody
 if [ ! -f "${CONF_DIR}/users.conf" ]; then
 	echo "no users.conf provided, using environment variables"
 	
