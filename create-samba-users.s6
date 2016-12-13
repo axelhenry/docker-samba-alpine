@@ -1,0 +1,45 @@
+#!/usr/bin/with-contenv sh
+
+#parameters username userid groupname groupid password
+createUser () {
+        userExists=$(cat /etc/passwd | grep "$1:")
+        if [ -z "$userExists" ]; then
+                _gid=$(cat /etc/group | grep ":$4:" | cut -d: -f1)
+                echo "group name associated with given ($4) : ($_gid)"
+                if [ -z "$_gid" ]; then
+                        #echo "users using ($DBOX_GID aka $_gid) : ($list_users)"
+                        echo "Creating group ($3) with ($_gid) gid"
+                        #groupadd -g $4 $3
+			addgroup -g ${4} ${3} > /dev/null 2&>1
+                        _gid=$(cat /etc/group | grep ":$4:" | cut -d: -f1)
+                fi
+
+
+                #creating user
+                echo "Creating user ($1) with uid ($2), gid ($_gid)."
+                #useradd -c "Samba user account" -u $2 -g $_gid $1
+		#addgroup -g ${GID} ${GROUP} > /dev/null 2&>1
+		adduser -S -G ${3} -u ${2} -H -D ${1}
+
+                echo "${5}" | tee - | smbpasswd -s -c "${CONF_DIR}/smb.conf" -a ${1}
+        fi
+}
+
+if [ ! -f "${CONF_DIR}/users.conf" ]; then
+	echo "no users.conf provided, using environment variables"
+	
+	createUser $USERNAME $UID $GROUP $GID $PASSWORD
+
+else
+	echo "users.conf found, proceeding..."
+	grep -v '^#' "${CONF_DIR}/users.conf" | while IFS='' read -r line || [[ -n "$line" ]]; do
+		USERNAME=$(echo "$line" | cut -f1)
+		PASSWORD=$(echo "$line" | cut -f2)
+		UID=$(echo "$line" | cut -f3)
+		GID=$(echo "$line" | cut -f4)
+		GROUP=$(echo "$line" | cut -f5)
+		
+		createUser $USERNAME $UID $GROUP $GID $PASSWORD
+	done
+fi
+
