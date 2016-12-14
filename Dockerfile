@@ -32,7 +32,7 @@ RUN set -xe \
 
 COPY create-samba-users.s6 /etc/cont-init.d/00-create-samba-users.sh
 COPY create-tmp-folder.s6 /etc/cont-init.d/01-create-tmp-folder.sh
-COPY create-nobody-user.s6 /etc/cont-init.d/02-create-nobody-user.sh
+#COPY create-nobody-user.s6 /etc/cont-init.d/02-create-nobody-user.sh
 COPY run-samba-server.s6 /etc/services.d/samba/run
 #COPY finish-samba-server.s6 /etc/services.d/samba/finish
 

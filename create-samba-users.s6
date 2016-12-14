@@ -1,5 +1,9 @@
 #!/usr/bin/with-contenv sh
 
+createUserNobody () {
+	echo "Creating nobody user"
+	smbpasswd  -c "${CONF_DIR}/smb.conf" -an nobody
+}
 
 #parameters username userid groupname groupid password
 createUser () {
@@ -43,4 +47,4 @@ else
 		createUser $USERNAME $UID $GROUP $GID $PASSWORD
 	done
 fi
-
+createUserNobody
