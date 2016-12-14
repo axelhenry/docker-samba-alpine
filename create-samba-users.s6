@@ -1,12 +1,9 @@
 #!/usr/bin/with-contenv sh
 
-createNobody () {
-	echo "Creating nobody user"
-	smbpasswd -an nobody
-}
 
 #parameters username userid groupname groupid password
 createUser () {
+	echo "$0 ($1, $2, $3, $4, $5)"
         userExists=$(cat /etc/passwd | grep "$1:")
         if [ -z "$userExists" ]; then
                 _gid=$(cat /etc/group | grep ":$4:" | cut -d: -f1)
@@ -28,8 +25,6 @@ createUser () {
                 echo "${5}" | tee - | smbpasswd -s -c "${CONF_DIR}/smb.conf" -a ${1}
         fi
 }
-
-createNobody
 
 if [ ! -f "${CONF_DIR}/users.conf" ]; then
 	echo "no users.conf provided, using environment variables"
