@@ -1,8 +1,4 @@
 #!/usr/bin/sh
 
-createNobody () {
-        echo "Creating nobody user"
-        smbpasswd -an nobody
-}
-
-createNobody
+echo "Creating nobody user"
+smbpasswd -an nobody
