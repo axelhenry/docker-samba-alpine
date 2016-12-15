@@ -6,17 +6,18 @@
 ## Configuration
 See [config directory](/config) for sample config file.
 
-- #### smb.conf
+- smb.conf
 
 To have multiple samba instances running on the host without using port redirection, we'll bind samba to a network interface.
 Check if that interface exists or create it (see [host configuration](#host-configuration))
+
 ````
 bind interfaces only = yes
 interfaces = xxx.xxx.xxx.xxx
 netbios name = XXXXXXXX
 ````
 
-- #### users.conf
+- users.conf
 
 ````
 #lines beginning with # are comments
@@ -30,7 +31,7 @@ If you want your samba user to be able to write on your share, make sure to give
 
 ## Host Configuration
 
-- #### Interface configuration
+- Interface configuration
 
 Examples given are working under debian 8, check your distribution's wiki to adapt files/commands.
 
@@ -61,52 +62,37 @@ iface ethX:givenlabel inet static
   address xxx.xxx.xxx.xxx
   netmask xxx.xxx.xxx.xxx
 ````
+
 Restart your networking service.
 ````Shell
   service networking restart
 ````
+
 Ping your newly created interface.
 
 Enjoy.
 
-- #### DNS configuration
+- DNS configuration
 
 Right now you can only access to your new interfaces by ip, so if you want to use hostnames, make sure to bind the ip with the desired hostname in your router/dns server/whatever solution you use on your local network.
 
 
 ## Quickstart
 
-Make sure you have [smb.conf](#smb.conf) in your config folder. You can specify a username and a password via environment variables, or uses defaults values.
+Make sure you have [smb.conf](#smb.conf) in your config folder. You can specify a username and a password via environment variables, or use defaults values.
 
 ````
-samba:
-  image: axelhenry/docker-samba-alpine
-
-  Volumes:
-    # Configuration folder
-    # You must provide a folder containing a Samba config file named smb.conf
-    - /config/folder/on/host:/config
-
-    # Shares
-    - /path/to/content/folder/on/host:/shared
-
-  ports:
-    - "137:137/udp"
-    - "138:138/udp"
-    - "139:139/tcp"
-    - "445:445/tcp"
-
-  environment:
-    - USERNAME=samba
-    - UID=1000
-    - GROUPNAME=samba
-    - GID=1000
-    - PASSWORD=samba
-    - S6_VERSION=1.18.1.5
+environment:
+  - USERNAME=samba
+  - UID=1000
+  - GROUPNAME=samba
+  - GID=1000
+  - PASSWORD=samba
+  - S6_VERSION=1.18.1.5
 ````
 
 ````shell
-docker run -d --net=host -p 137-139:137-139 -p 445:445 -v /path/to/data:/shared -v /path/to/folder/containing/your/samba/config/file:/config -e USERNAME=user -e PASSWORD=testing --name samba.quickstart axelhenry/docker-samba-alpine
+docker run -d --net=host -v /path/to/data:/shared -v /path/to/folder/containing/your/samba/config/file:/config -e USERNAME=user -e PASSWORD=testing --name samba.quickstart axelhenry/docker-samba-alpine
 ````
 
 ## Not so quick start
@@ -114,7 +100,7 @@ docker run -d --net=host -p 137-139:137-139 -p 445:445 -v /path/to/data:/shared 
 Make sure you have [smb.conf](#smb.conf) and [users.conf](#users.conf) in your config folder.
 
 ````shell
-docker run -d --net=host -p 137-139:137-139 -p 445:445 -v /path/to/data:/shared -v /path/to/folder/containing/your/configs/files:/config --name samba.nquickstart axelhenry/docker-samba-alpine
+docker run -d --net=host -v /path/to/data:/shared -v /path/to/folder/containing/your/configs/files:/config --name samba.nquickstart axelhenry/docker-samba-alpine
 ````
 
 ## Thanks
