@@ -76,7 +76,7 @@ Right now you can only access to your new interfaces by ip, so if you want to us
 
 ## Quickstart
 
-Make sure you have [smb.conf](#smb.conf) in your config folder
+Make sure you have [smb.conf](#smb.conf) in your config folder. You can specify a username and a password via environment variables, or uses defaults values.
 
 ````
 samba:
