@@ -5,7 +5,6 @@ ENV USERNAME samba
 ENV GID 1000
 ENV GROUP samba
 ENV PASSWORD password
-ENV CONF_DIR /config
 ENV S6_VERSION 1.18.1.5
 
 #Download s6-overlay's files
@@ -37,5 +36,7 @@ COPY run-samba-server.s6 /etc/services.d/samba/run
 #COPY finish-samba-server.s6 /etc/services.d/samba/finish
 
 EXPOSE 137/udp 138/udp 139/tcp 445/tcp
+
+VOLUME ["/config", "/shared"]
 
 CMD ["/init"]

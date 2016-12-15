@@ -2,7 +2,7 @@
 
 createUserNobody () {
 	echo "Creating nobody user"
-	smbpasswd  -c "${CONF_DIR}/smb.conf" -an nobody
+	smbpasswd  -c "/config/smb.conf" -an nobody
 }
 
 #parameters username userid groupname groupid password
@@ -26,24 +26,24 @@ createUser () {
 		#addgroup -g ${GID} ${GROUP} > /dev/null 2&>1
 		adduser -S -G ${_gid} -u ${2} -H -D ${1}
 
-                echo "${5}" | tee - | smbpasswd -s -c "${CONF_DIR}/smb.conf" -a ${1}
+                echo "${5}" | tee - | smbpasswd -s -c "/config/smb.conf" -a ${1}
         fi
 }
 
-if [ ! -f "${CONF_DIR}/users.conf" ]; then
+if [ ! -f "/config/users.conf" ]; then
 	echo "no users.conf provided, using environment variables"
-	
+
 	createUser $USERNAME $UID $GROUP $GID $PASSWORD
 
 else
 	echo "users.conf found, proceeding..."
-	grep -v '^#' "${CONF_DIR}/users.conf" | while IFS='' read -r line || [[ -n "$line" ]]; do
+	grep -v '^#' "/config/users.conf" | while IFS='' read -r line || [[ -n "$line" ]]; do
 		USERNAME=$(echo "$line" | cut -f1)
 		PASSWORD=$(echo "$line" | cut -f2)
 		UID=$(echo "$line" | cut -f3)
 		GID=$(echo "$line" | cut -f4)
 		GROUP=$(echo "$line" | cut -f5)
-		
+
 		createUser $USERNAME $UID $GROUP $GID $PASSWORD
 	done
 fi
