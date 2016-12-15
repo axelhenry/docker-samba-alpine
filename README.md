@@ -6,7 +6,7 @@
 ## Configuration
 See [config directory](/config) for sample config file.
 
-### smb.conf
+#### smb.conf
 
 To have multiple samba instances running on the host without using port redirection, we'll bind samba to a network interface.
 Check if that interface exists or create it (see [host configuration](#host-configuration))
@@ -17,7 +17,7 @@ interfaces = xxx.xxx.xxx.xxx
 netbios name = XXXXXXXX
 ````
 
-### users.conf
+#### users.conf
 
 ````
 #lines beginning with # are comments
@@ -31,7 +31,7 @@ If you want your samba user to be able to write on your share, make sure to give
 
 ## Host Configuration
 
-### Interface configuration
+#### Interface configuration
 
 Examples given are working under debian 8, check your distribution's wiki to adapt files/commands.
 
@@ -72,7 +72,7 @@ Ping your newly created interface.
 
 Enjoy.
 
-### DNS configuration
+#### DNS configuration
 
 Right now you can only access to your new interfaces by ip, so if you want to use hostnames, make sure to bind the ip with the desired hostname in your router/dns server/whatever solution you use on your local network.
 
