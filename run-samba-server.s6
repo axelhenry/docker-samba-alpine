@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
-if [ ! -f "${CONF_DIR}/smb.conf" ]; then
-	echo "ERROR: You must pass though a Samba config file in \"${CONF_DIR}\" or change \$CONF_DIR to the config file path"
+if [ ! -f "/config/smb.conf" ]; then
+	echo "ERROR: You must pass have a Samba config file named smb.conf in /config"
 	exit 1
 fi
 
@@ -9,5 +9,5 @@ fi
 #adduser -S -G ${GROUP} -u ${UID} -H -D ${USERNAME}
 #echo "${PASSWORD}" | tee - | smbpasswd -s -c "${CONFIG}" -a ${USERNAME}
 
-nmbd --foreground --log-stdout --configfile="${CONF_DIR}/smb.conf" &
-smbd --foreground --log-stdout --configfile="${CONF_DIR}/smb.conf"
+nmbd --foreground --log-stdout --configfile="/config/smb.conf" &
+smbd --foreground --log-stdout --configfile="/config/smb.conf"
