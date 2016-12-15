@@ -79,7 +79,7 @@ Right now you can only access to your new interfaces by ip, so if you want to us
 
 ## Quickstart
 
-Make sure you have [smb.conf](#smb.conf) in your config folder. You can specify a username and a password via environment variables, or use defaults values.
+Make sure you have [smb.conf](#smbconf) in your config folder. You can specify a username and a password via environment variables, or use defaults values.
 
 ````
 environment:
@@ -97,7 +97,7 @@ docker run -d --net=host -v /path/to/data:/shared -v /path/to/folder/containing/
 
 ## Not so quick start
 
-Make sure you have [smb.conf](#smb.conf) and [users.conf](#users.conf) in your config folder.
+Make sure you have [smb.conf](#smbconf) and [users.conf](#usersconf) in your config folder.
 
 ````shell
 docker run -d --net=host -v /path/to/data:/shared -v /path/to/folder/containing/your/configs/files:/config --name samba.nquickstart axelhenry/docker-samba-alpine
