@@ -17,7 +17,11 @@ ENV COMMON_SCRIPTS_LOCATION	/opt
 
 #	Install packages
 RUN set -xe \
-	&& apk add --update --no-cache samba-common-tools samba-server gnupg curl
+	&& apk add --update --no-cache \
+	samba-common-tools \
+	samba-server \
+	gnupg \
+	curl
 
 #	Create directory and download common file
 RUN set -xe \
