@@ -2,13 +2,13 @@
 
 . $COMMON_SCRIPTS_LOCATION/createuser.sh
 
-function createUserNobody {
+createUserNobody () {
 	echo "Creating nobody user"
 	smbpasswd  -c "/config/smb.conf" -an nobody
 }
 
 #	arguments username password
-function createSamba {
+createSamba () {
 		echo "${5}" | tee - | smbpasswd -s -c "/config/smb.conf" -a ${1}
 }
 
