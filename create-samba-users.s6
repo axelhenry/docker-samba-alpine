@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-. /$COMMON_SCRIPTS_LOCATION/createuser.sh
+. $COMMON_SCRIPTS_LOCATION/createuser.sh
 
 function createUserNobody () {
 	echo "Creating nobody user"
