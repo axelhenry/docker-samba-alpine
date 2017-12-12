@@ -2,13 +2,13 @@
 
 . $COMMON_SCRIPTS_LOCATION/createuser.sh
 
-function createUserNobody () {
+function createUserNobody {
 	echo "Creating nobody user"
 	smbpasswd  -c "/config/smb.conf" -an nobody
 }
 
 #	arguments username password
-function createSamba(){
+function createSamba {
 		echo "${5}" | tee - | smbpasswd -s -c "/config/smb.conf" -a ${1}
 }
 
@@ -40,7 +40,7 @@ function createSamba(){
 if [ ! -f "/config/users.conf" ]; then
 	echo "no users.conf provided, using environment variables"
 
-	createUser $USERNAME $UID $GROUP $GID $PASSWORD
+	createUser $USERNAME $UID $GROUP $GID $PASSWORD emptyProcess
 
 else
 	echo "users.conf found, proceeding..."
@@ -51,7 +51,7 @@ else
 		GID=$(echo "$line" | cut -f4)
 		GROUP=$(echo "$line" | cut -f5)
 
-		createUser $USERNAME $UID $GROUP $GID $PASSWORD
+		createUser $USERNAME $UID $GROUP $GID $PASSWORD createSamba
 	done
 fi
 createUserNobody
