@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 # shellcheck source=/opt/createuser.sh
-. "${COMMON_SCRIPTS_LOCATION}"/createuser.sh
+source "${COMMON_SCRIPTS_LOCATION}"/createuser.sh
 
 createUserNobody () {
 	echo "Creating nobody user"
