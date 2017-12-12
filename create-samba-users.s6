@@ -1,34 +1,41 @@
 #!/usr/bin/with-contenv sh
 
-createUserNobody () {
+. /$COMMON_SCRIPTS_LOCATION/createuser.sh
+
+function createUserNobody () {
 	echo "Creating nobody user"
 	smbpasswd  -c "/config/smb.conf" -an nobody
 }
 
-#parameters username userid groupname groupid password
-createUser () {
-	echo "$0 ($1, $2, $3, $4, $5)"
-        userExists=$(cat /etc/passwd | grep "$1:")
-        if [ -z "$userExists" ]; then
-                _gid=$(cat /etc/group | grep ":$4:" | cut -d: -f1)
-                echo "group name associated with given ($4) : ($_gid)"
-                if [ -z "$_gid" ]; then
-                        #echo "users using ($DBOX_GID aka $_gid) : ($list_users)"
-                        echo "Creating group ($3) with ($4) gid"
-                        #groupadd -g $4 $3
-			addgroup -g ${4} ${3} > /dev/null 2&>1
-                        _gid=$(cat /etc/group | grep ":$4:" | cut -d: -f1)
-                fi
-
-                #creating user
-                echo "Creating user ($1) with uid ($2), gid ($_gid)."
-                #useradd -c "Samba user account" -u $2 -g $_gid $1
-		#addgroup -g ${GID} ${GROUP} > /dev/null 2&>1
-		adduser -S -G ${_gid} -u ${2} -H -D ${1}
-
-                echo "${5}" | tee - | smbpasswd -s -c "/config/smb.conf" -a ${1}
-        fi
+#	arguments username password
+function createSamba(){
+		echo "${5}" | tee - | smbpasswd -s -c "/config/smb.conf" -a ${1}
 }
+
+# #	arguments username userid groupname groupid password
+# function createUser () {
+# 	echo "$0 ($1, $2, $3, $4, $5)"
+# 	userExists=$(cat /etc/passwd | grep "$1:")
+# 	if [ -z "${userExists}" ]; then
+# 		_gid=$(grep ":$4:" /etc/group | cut -d: -f1)
+# 		echo "Group name associated with given ($4) : ($_gid)."
+# 		if [ -z "${_gid}" ]; then
+# 			#echo "users using ($DBOX_GID aka $_gid) : ($list_users)"
+# 			echo "Creating group ($3) with ($4) gid."
+# 			#groupadd -g $4 $3
+# 			addgroup -g ${4} ${3} > /dev/null 2&>1
+# 			_gid=$(grep ":$4:" /etc/group | cut -d: -f1)
+# 		fi
+#
+# 		#	creating user
+# 		echo "Creating user ($1) with uid ($2), gid ($_gid)."
+# 		#useradd -c "Samba user account" -u $2 -g $_gid $1
+# 		#addgroup -g ${GID} ${GROUP} > /dev/null 2&>1
+# 		adduser -S -G ${_gid} -u ${2} -H -D ${1}
+#
+# 		echo "${5}" | tee - | smbpasswd -s -c "/config/smb.conf" -a ${1}
+# 	fi
+# }
 
 if [ ! -f "/config/users.conf" ]; then
 	echo "no users.conf provided, using environment variables"
