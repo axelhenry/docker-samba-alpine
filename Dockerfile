@@ -26,7 +26,7 @@ RUN set -xe \
 #	Create directory and download common file
 RUN set -xe \
 	&& mkdir -p $COMMON_SCRIPTS_LOCATION \
-	&& curl -o $COMMON_SCRIPTS_LOCATION/createuser.sh -L https://github.com/axelhenry/shell-commons/blob/master/docker/alpine_createUser.sh
+	&& curl -o $COMMON_SCRIPTS_LOCATION/createuser.sh -L https://raw.githubusercontent.com/axelhenry/shell-commons/master/docker/alpine_createUser.sh
 
 #	Download s6-overlay files
 #	&& curl -o /tmp/key.asc https://keybase.io/justcontainers/key.asc \
